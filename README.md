@@ -11,3 +11,7 @@ After installing dependencies, ensure that the cp-backend project, containing th
 Once the backend is set up, run the following command to start the project:
 
 `npm run dev`
+
+You can use for testing purposes the 
+NID: 1234
+Password: Admin123
