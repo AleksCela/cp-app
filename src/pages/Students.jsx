@@ -9,12 +9,12 @@ import {
 	TablePagination,
 	Paper,
 	Button,
-	Modal,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 const Students = () => {
 	const [openModal, setOpenModal] = useState(false);
@@ -77,6 +77,15 @@ const Students = () => {
 		}
 	};
 
+	const tableHeaders = [
+		"NID Studenti",
+		"Emer Studenti",
+		"Mbiemer Studenti",
+		"Numri i lendeve te bera subscribe",
+		"Modifiko",
+		"Fshi",
+	];
+
 	return (
 		<div className='flex flex-col justify-center items-center h-full'>
 			<TableContainer
@@ -90,14 +99,9 @@ const Students = () => {
 				<Table>
 					<TableHead>
 						<TableRow>
-							<TableCell>NID Studenti</TableCell>
-							<TableCell>Emer Studenti</TableCell>
-							<TableCell>Mbiemer Studenti</TableCell>
-							<TableCell>
-								Numri i lendeve te bera subscribe
-							</TableCell>
-							<TableCell>Modifiko</TableCell>
-							<TableCell>Fshi</TableCell>
+							{tableHeaders.map((header, index) => (
+								<TableCell key={index}>{header}</TableCell>
+							))}
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -134,38 +138,12 @@ const Students = () => {
 									>
 										Fshi
 									</Button>
-									<Modal
+									<ConfirmationModal
 										open={openModal}
 										onClose={handleCloseModal}
-										aria-labelledby='modal-modal-title'
-										aria-describedby='modal-modal-description'
-									>
-										<div className='flex items-center justify-center h-screen'>
-											<div className='w-96 p-6 bg-white shadow-lg rounded-lg'>
-												<p className='text-gray-600 mb-4'>
-													Jeni I sigurt qe doni te
-													fshini rekordin?!
-												</p>
-												<div className='flex justify-end'>
-													<Button
-														onClick={
-															handleCloseModal
-														}
-														className='mr-2'
-													>
-														JO
-													</Button>
-													<Button
-														onClick={handleDelete}
-														variant='contained'
-														color='error'
-													>
-														PO
-													</Button>
-												</div>
-											</div>
-										</div>
-									</Modal>
+										onConfirm={handleDelete}
+										message='Jeni I sigurt qe doni te fshini rekordin?!'
+									/>
 								</TableCell>
 							</TableRow>
 						))}

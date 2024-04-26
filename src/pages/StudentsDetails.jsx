@@ -1,17 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-	TextField,
-	Typography,
-	Checkbox,
-	Button,
-	Grid,
-	Table,
-	TableCell,
-	TableRow,
-	TableContainer,
-	TableBody,
-	TableHead,
-} from "@mui/material";
+import { TextField, Typography, Button, Grid } from "@mui/material";
+import CourseTable from "../components/CourseTable";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -252,41 +241,10 @@ const StudentDetails = () => {
 			<Typography variant='h4' className='mt-6 mb-4 text-center'>
 				Tabela e lendeve
 			</Typography>
-
-			<TableContainer>
-				<Table className='w-full mb-4'>
-					<TableHead className='bg-green-200'>
-						<TableRow>
-							<TableCell className='text-white'>Lenda</TableCell>
-							<TableCell className='text-white'>
-								Subscribe
-							</TableCell>
-							<TableCell className='text-white'>Data</TableCell>
-							<TableCell className='text-white'>
-								Info te tjera
-							</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{student.courses.map((course, index) => (
-							<TableRow key={index}>
-								<TableCell>{course.name}</TableCell>
-								<TableCell>
-									<Checkbox
-										checked={!!course.subscribed}
-										onChange={() =>
-											handleCheckboxChange(index)
-										}
-									/>
-								</TableCell>
-								<TableCell>{course.subscribeDate}</TableCell>
-								<TableCell>{course.otherInfo}</TableCell>
-							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-			</TableContainer>
-
+			<CourseTable
+				student={student}
+				handleCheckboxChange={handleCheckboxChange}
+			/>
 			<div className='flex gap-4 items-center'>
 				<Button
 					variant='contained'

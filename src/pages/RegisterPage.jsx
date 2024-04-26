@@ -8,7 +8,7 @@ import {
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -23,12 +23,17 @@ const schema = yup.object().shape({
 			/^(?=.*[A-Z])(?=.*\d).{8,}$/,
 			"Fjalekalimi duhet te permbaje te pakten nje germe te madhe, nje numer, dhe te jete jo me pak se 8 karaktere",
 		),
-	name: yup.string(),
-	surname: yup.string(),
+	name: yup
+		.string()
+		.matches(/^[A-Za-z]+$/, "Emri mund te permbaje vetem shkronja"),
+	surname: yup
+		.string()
+		.matches(/^[A-Za-z]+$/, "Mbiemri mund te permbaje vetem shkronja"),
 });
 
 const RegisterPage = () => {
 	const [registrationError, setRegistrationError] = useState(null);
+	const navigate = useNavigate();
 	const {
 		register,
 		handleSubmit,
@@ -43,7 +48,7 @@ const RegisterPage = () => {
 			await axios.post("http://localhost:3000/register", data);
 			toast.success("Regjistrimi u krye me sukses!", {
 				position: "top-right",
-				autoClose: 5000,
+				autoClose: 1000,
 				hideProgressBar: false,
 				closeOnClick: true,
 				pauseOnHover: true,
@@ -52,6 +57,9 @@ const RegisterPage = () => {
 				theme: "colored",
 			});
 			reset();
+			setTimeout(() => {
+				navigate("/");
+			}, 2000);
 		} catch (error) {
 			const errorMessage =
 				error.response.data.error || "Something went wrong";
